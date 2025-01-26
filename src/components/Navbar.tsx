@@ -9,7 +9,7 @@ import { CommandDemo } from "./Command";
 
 const Navbar = () => {
   return (
-    <div className="navbar p-4 md:p-5">
+    <div className="max-w-[1440px] mx-auto navbar p-4 md:p-5">
       {/* Top Nav */}
       <div className="container mt-4 mx-auto flex justify-between items-center">
         <div className="flex flex-1 justify-between items-center">

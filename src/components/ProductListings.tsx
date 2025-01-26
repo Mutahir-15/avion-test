@@ -1,10 +1,10 @@
-'use client'
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { FaSortDown } from 'react-icons/fa6';
-import { client } from '@/sanity/lib/client';
-import { FAQ } from './FAQ';
+"use client";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { FaSortDown } from "react-icons/fa6";
+import { client } from "@/sanity/lib/client";
+import { FAQ } from "./FAQ";
 
 interface Product {
   image_url: string;
@@ -38,7 +38,7 @@ const ProductListings = () => {
         setProducts(fetchedProducts);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error("Error fetching products:", error);
         setLoading(false);
       }
     };
@@ -64,37 +64,28 @@ const ProductListings = () => {
       </div>
 
       {/* Filters Section */}
-      <div className="flex flex-wrap p-5 justify-between items-center gap-4">
+      <div className="flex flex-wrap justify-between items-center gap-6 p-4 bg-gray-50 shadow-md rounded-lg">
         {/* Left Filters */}
-        <div className="flex flex-wrap gap-3">
-          <div className="flex items-center gap-1">
-            <p>Category</p>
-            <FaSortDown />
-          </div>
-          <div className="flex items-center gap-1">
-            <p>Sort by</p>
-            <FaSortDown />
-          </div>
-          <div className="flex items-center gap-1">
-            <p>Product type</p>
-            <FaSortDown />
-          </div>
-          <div className="flex items-center gap-1">
-            <p>Price</p>
-            <FaSortDown />
-          </div>
-          <div className="flex items-center gap-1">
-            <p>Brand</p>
-            <FaSortDown />
-          </div>
+        <div className="flex flex-wrap gap-4">
+          {["Category", "Sort by", "Product type", "Price", "Brand"].map(
+            (filter, index) => (
+              <div
+                key={index}
+                className="flex items-center gap-2 bg-white py-2 px-3 rounded-md shadow-sm cursor-pointer hover:bg-gray-100 transition-all"
+              >
+                <p className="text-gray-700 font-medium">{filter}</p>
+                <FaSortDown className="text-gray-500" />
+              </div>
+            )
+          )}
         </div>
 
         {/* Right Sorting */}
         <div className="flex justify-center items-center gap-3">
-          <p>Sorting by:</p>
-          <div className="flex justify-center items-center gap-1">
-            <p>Date added</p>
-            <FaSortDown />
+          <p className="text-gray-700 font-medium">Sorting by:</p>
+          <div className="flex items-center gap-2 bg-white py-2 px-3 rounded-md shadow-sm cursor-pointer hover:bg-gray-100 transition-all">
+            <p className="text-gray-700 font-medium">Date added</p>
+            <FaSortDown className="text-gray-500" />
           </div>
         </div>
       </div>
@@ -115,12 +106,14 @@ const ProductListings = () => {
               </div>
               <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
               <p className="text-gray-800 text-xl mb-2">${product.price}</p>
-              <p className="text-sm text-gray-500">Quantity: {product.quantity || 'N/A'}</p>
+              <p className="text-sm text-gray-500">
+                Quantity: {product.quantity || "N/A"}
+              </p>
             </div>
           </Link>
         ))}
       </div>
-      <FAQ/>
+      <FAQ />
     </section>
   );
 };
