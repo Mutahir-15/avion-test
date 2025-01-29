@@ -1,7 +1,8 @@
 import { groq } from 'next-sanity';
-import { client } from '@/sanity/lib/client'; // Adjust the path to your Sanity client
+import { client } from '@/sanity/lib/client';
 import Image from 'next/image';
 
+// Define the GROQ query to fetch a single product by its _id
 const query = groq`
   *[_type == "product" && _id == $productId][0] {
     _id,
@@ -19,12 +20,15 @@ const query = groq`
   }
 `;
 
-export default async function ProductDetails({
-  params,
-}: {
-  params: { productId: string };
-}) {
-  // Fetch the product data
+// Define the type for the params object
+interface PageProps {
+  params: {
+    productId: string;
+  };
+}
+
+// Fetch and display product details
+export default async function ProductDetails({ params }: PageProps) {
   const product = await client.fetch(query, { productId: params.productId });
 
   if (!product) {
@@ -35,7 +39,7 @@ export default async function ProductDetails({
     <div className="max-w-[1440px] mx-auto p-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Product Image */}
-        <div className="relative w-full h-[100]">
+        <div className="relative w-full h-96">
           <Image
             src={product.image_url}
             alt={product.name}
