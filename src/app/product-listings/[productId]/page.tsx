@@ -35,7 +35,7 @@ export default async function ProductDetails({
     <div className="max-w-[1440px] mx-auto p-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Product Image */}
-        <div className="relative w-full h-96">
+        <div className="relative w-full h-[100]">
           <Image
             src={product.image_url}
             alt={product.name}
