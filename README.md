@@ -1,1 +1,1 @@
-# This is repo is only made for testings.
+# This repo is only made for testings.
