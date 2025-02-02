@@ -109,6 +109,9 @@ const ProductListings = () => {
               <p className="text-sm text-gray-500">
                 Quantity: {product.quantity || "N/A"}
               </p>
+              <button className="w-full mt-6 sm:mt-8 px-4 py-3 sm:px-10 sm:py-3 bg-customColors-dark-primary text-white font-bold hover:bg-customColors-border-dark hover:text-black transition-colors duration-300 rounded">
+            Add to Cart
+          </button>
             </div>
           </Link>
         ))}

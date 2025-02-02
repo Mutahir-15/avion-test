@@ -1,6 +1,7 @@
 import { groq } from 'next-sanity';
 import { client } from '@/sanity/lib/client';
 import Image from 'next/image';
+import { Link } from 'lucide-react';
 
 // Define the GROQ query to fetch a single product by its _id
 const query = groq`
@@ -36,10 +37,10 @@ export default async function ProductDetails({ params }: PageProps) {
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto p-4 sm:px-6 lg:px-8">
+    <div className="max-w-[1440px] mx-auto mb-3 lg:mb-5 p-4 lg:p-5 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Product Image */}
-        <div className="relative w-full h-96">
+        <div className="relative w-full h-[100]">
           <Image
             src={product.image_url}
             alt={product.name}
@@ -96,8 +97,16 @@ export default async function ProductDetails({ params }: PageProps) {
               <p>Depth: {product.dimensions.depth}</p>
             </div>
           )}
-        </div>
+          {/* Add to Cart Button */}
+      <div>
+      <button className="mt-6 sm:mt-8 px-4 py-3 sm:px-6 sm:py-3 bg-customColors-dark-primary text-white font-medium hover:bg-customColors-border-dark hover:text-black transition-colors duration-300 rounded">
+            Add to Cart
+          </button>
       </div>
+        </div>
+        
+      </div>
+      
     </div>
   );
 }
