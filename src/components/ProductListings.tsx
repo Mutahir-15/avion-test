@@ -67,7 +67,7 @@ const ProductListings = () => {
       <div className="flex flex-wrap justify-between items-center gap-6 p-4 bg-gray-50 shadow-md rounded-lg">
         {/* Left Filters */}
         <div className="flex flex-wrap gap-4">
-          {["Category", "Sort by", "Product type", "Price", "Brand"].map(
+          {["Category", "Sort by", "Price"].map(
             (filter, index) => (
               <div
                 key={index}
