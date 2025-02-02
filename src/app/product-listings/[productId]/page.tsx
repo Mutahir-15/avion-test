@@ -1,7 +1,6 @@
 import { groq } from 'next-sanity';
 import { client } from '@/sanity/lib/client';
 import Image from 'next/image';
-import { Link } from 'lucide-react';
 import { FAQ } from '@/components/FAQ';
 
 // Define the GROQ query to fetch a single product by its _id

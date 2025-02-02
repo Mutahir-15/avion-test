@@ -71,6 +71,7 @@ const Navbar = () => {
           >
             Shopping Cart
           </Link>
+          <SearchBar/>
           <Link href={"/cart"}>
             <MdOutlineShoppingCart className="top-[26px] mr-4" />
           </Link>
