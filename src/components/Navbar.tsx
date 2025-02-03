@@ -1,5 +1,4 @@
 import React from "react";
-import { IoSearch } from "react-icons/io5";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { FaRegUserCircle } from "react-icons/fa";
 import Link from "next/link";
