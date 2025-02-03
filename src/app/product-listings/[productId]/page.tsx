@@ -1,7 +1,7 @@
-import { groq } from 'next-sanity';
-import { client } from '@/sanity/lib/client';
-import Image from 'next/image';
-import { FAQ } from '@/components/FAQ';
+import { groq } from "next-sanity";
+import { client } from "@/sanity/lib/client";
+import Image from "next/image";
+import { FAQ } from "@/components/FAQ";
 
 // Define the GROQ query to fetch a single product by its _id
 const query = groq`
@@ -20,7 +20,6 @@ const query = groq`
     }
   }
 `;
-
 // Define the type for the params object
 interface PageProps {
   params: {
@@ -37,7 +36,7 @@ export default async function ProductDetails({ params }: PageProps) {
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto mb-3 lg:mb-5 p-4 lg:p-5 sm:px-6 lg:px-8">
+    <div className="max-w-[1440px] mx-auto mb-3 lg:mb-5 p-4 lg:p-10 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Product Image */}
         <div className="relative w-full h-[100]">
@@ -98,15 +97,16 @@ export default async function ProductDetails({ params }: PageProps) {
             </div>
           )}
           {/* Add to Cart Button */}
-      <div>
-      <button className="mt-6 sm:mt-8 px-4 py-3 sm:px-6 sm:py-3 bg-customColors-dark-primary text-white font-medium hover:bg-customColors-border-dark hover:text-black transition-colors duration-300 rounded">
-            Add to Cart
-          </button>
-      </div>
+          <div>
+            <button className="mt-6 sm:mt-8 px-4 py-3 sm:px-6 sm:py-3 bg-customColors-dark-primary text-white font-medium hover:bg-customColors-border-dark hover:text-black transition-colors duration-300 rounded">
+              Add to Cart
+            </button>
+          </div>
         </div>
-        
       </div>
+      <div className="border-t-2 mt-5 lg:mt-8">
       <FAQ/>
+      </div>
     </div>
   );
 }

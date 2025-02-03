@@ -76,7 +76,6 @@ const Navbar = () => {
             <MdOutlineShoppingCart className="top-[26px] mr-4" />
           </Link>
           <FaRegUserCircle className="mr-4" />
-          <IoSearch />
         </div>
       </div>
 
