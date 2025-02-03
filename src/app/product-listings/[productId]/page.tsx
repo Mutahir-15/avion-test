@@ -20,7 +20,7 @@ const query = groq`
     }
   }
 `;
-// Define the type for the params object
+
 interface PageProps {
   params: {
     productId: string;
@@ -37,15 +37,14 @@ export default async function ProductDetails({ params }: PageProps) {
 
   return (
     <div className="max-w-[1440px] mx-auto mb-3 lg:mb-5 p-4 lg:p-10 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:gap-8">
         {/* Product Image */}
-        <div className="relative w-full h-[100]">
+        <div className="relative w-full h-[300px] sm:h-[400px] md:h-[655px] mb-3 lg:mb-5">
           <Image
-            src={product.image_url}
+            src={product.image_url || "/fallback-image.jpg"}
             alt={product.name}
-            layout="fill"
-            objectFit="cover"
-            className="rounded-lg"
+            fill
+            className="object-cover rounded-lg"
           />
         </div>
 
@@ -98,14 +97,14 @@ export default async function ProductDetails({ params }: PageProps) {
           )}
           {/* Add to Cart Button */}
           <div>
-            <button className="mt-6 sm:mt-8 px-4 py-3 sm:px-6 sm:py-3 bg-customColors-dark-primary text-white font-medium hover:bg-customColors-border-dark hover:text-black transition-colors duration-300 rounded">
+            <button className="mt-6 sm:mt-8 px-4 py-3 sm:px-16 sm:py-3 bg-customColors-dark-primary text-white font-medium hover:bg-customColors-border-dark hover:text-black transition-colors duration-300 rounded">
               Add to Cart
             </button>
           </div>
         </div>
       </div>
       <div className="border-t-2 mt-5 lg:mt-8">
-      <FAQ/>
+        <FAQ />
       </div>
     </div>
   );
