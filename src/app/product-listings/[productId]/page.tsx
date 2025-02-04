@@ -29,10 +29,15 @@ interface PageProps {
 
 // Fetch and display product details
 export default async function ProductDetails({ params }: PageProps) {
+  console.log("Params received:", params);
+  if (!params?.productId) {
+    return <div className="text-center text-red-500">Invalid Product ID</div>;
+  }
+
   const product = await client.fetch(query, { productId: params.productId });
 
   if (!product) {
-    return <div>Product not found</div>;
+    return <div className="text-center text-gray-500">Product not found</div>;
   }
 
   return (
