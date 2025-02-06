@@ -1,4 +1,3 @@
-// filepath: /F:/Github/avion-test/src/app/product-listings/[productId]/page.tsx
 import { groq } from "next-sanity";
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
@@ -50,7 +49,8 @@ interface Product {
 
 // Fetch and display product details
 export default async function ProductDetails({ params }: PageProps) {
-  const product: Product | null = await client.fetch(query, { productId: params.productId });
+  const { productId } = params;
+  const product: Product | null = await client.fetch(query, { productId });
 
   if (!product) {
     return <div>Product not found</div>;
@@ -116,12 +116,6 @@ export default async function ProductDetails({ params }: PageProps) {
               <p>Depth: {product.dimensions.depth}</p>
             </div>
           )}
-          {/* Add to Cart Button */}
-          <div>
-            <button className="mt-6 sm:mt-8 px-4 py-3 sm:px-16 sm:py-3 bg-customColors-dark-primary text-white font-medium hover:bg-customColors-border-dark hover:text-black transition-colors duration-300 rounded">
-              Add to Cart
-            </button>
-          </div>
         </div>
       </div>
       <div className="border-t-2 mt-5 lg:mt-8">
