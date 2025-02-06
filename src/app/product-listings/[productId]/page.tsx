@@ -1,8 +1,8 @@
+// filepath: /F:/Github/avion-test/src/app/product-listings/[productId]/page.tsx
 import { groq } from "next-sanity";
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
 import { FAQ } from "@/components/FAQ";
-
 
 const query = groq`
   *[_type == "product" && _id == $productId][0] {
@@ -27,9 +27,30 @@ interface PageProps {
   };
 }
 
+interface Dimensions {
+  height: number;
+  width: number;
+  depth: number;
+}
+
+interface Product {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  dimensions: Dimensions;
+  image_url: string;
+  tags: string[];
+  features: string[];
+  category: {
+    name: string;
+  };
+}
+
 // Fetch and display product details
 export default async function ProductDetails({ params }: PageProps) {
-  const product = await client.fetch(query, { productId: params.productId });
+  const product: Product | null = await client.fetch(query, { productId: params.productId });
 
   if (!product) {
     return <div>Product not found</div>;
@@ -52,7 +73,7 @@ export default async function ProductDetails({ params }: PageProps) {
         <div className="space-y-4">
           <h1 className="text-3xl font-bold">{product.name}</h1>
           <p className="text-gray-700">{product.description}</p>
-          <p className="text-2xl font-semibold">${product.price}</p>
+          <p className="text-3xl font-semibold">${product.price}</p>
           <p className="text-gray-600">Quantity: {product.quantity || "N/A"}</p>
 
           {/* Category */}
