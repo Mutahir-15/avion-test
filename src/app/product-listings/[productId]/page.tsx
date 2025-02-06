@@ -100,7 +100,7 @@ export default function ProductDetails() {
 
           {/* Category */}
           {product.category && (
-            <p className="text-gray-600">Category: {product.category.name}</p>
+            <p className="text-gray-600">Category: {product.category}</p>
           )}
 
           {/* Tags */}
