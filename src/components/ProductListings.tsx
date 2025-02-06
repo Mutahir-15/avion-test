@@ -1,57 +1,64 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
+'use client'
+import { Product } from "@/types/types";
 import Image from "next/image";
-import { FaSortDown } from "react-icons/fa6";
+import { useEffect, useState } from "react";
 import { client } from "@/sanity/lib/client";
+import { addToCart } from "@/app/actions/actions";
+import { FaSortDown } from "react-icons/fa6";
+import Link from "next/link";
 import { FAQ } from "./FAQ";
-
-interface Product {
-  image_url: string;
-  _id: string;
-  name: string;
-  category: string;
-  price: number;
-  quantity: number;
-}
+import Swal from "sweetalert2";
 
 const ProductListings = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+    const [products, setProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const fetchedProducts: Product[] = await client.fetch(
-          `
-          *[_type == "product"] {
-            _id,
-            name,
-            description,
-            quantity,
-            price,
-            dimensions,
-            "image_url": image.asset->url,
-          }
-          `
-        );
-        setProducts(fetchedProducts);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-        setLoading(false);
-      }
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const fetchedProducts: Product[] = await client.fetch(
+                    `
+                    *[_type == "product"] {
+                        _id,
+                        name,
+                        description,
+                        quantity,
+                        price,
+                        dimensions,
+                        "image_url": image.asset->url,
+                    }
+                    `
+                );
+                setProducts(fetchedProducts);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    const handleAddToCart = (e: React.MouseEvent, product: Product) => {
+        e.preventDefault();
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: `${product.name} added to cart!`,
+          showConfirmButton: false,
+          timer: 1000
+        })
+        addToCart(product);
     };
 
-    fetchProducts();
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <section className="max-w-[1440px] mx-auto mb-10 px-4 sm:px-6 lg:px-8">
+    return (
+       <section className="max-w-[1440px] mx-auto mb-10 px-4 sm:px-6 lg:px-8">
       {/* Header Image */}
       <div>
         <Image
@@ -109,7 +116,8 @@ const ProductListings = () => {
               <p className="text-sm text-gray-500">
                 Quantity: {product.quantity || "N/A"}
               </p>
-              <button className="w-full mt-6 sm:mt-8 px-4 py-3 sm:px-10 sm:py-3 bg-customColors-dark-primary text-white font-bold hover:bg-customColors-border-dark hover:text-black transition-colors duration-300 rounded">
+              <button className="w-full mt-6 sm:mt-8 px-4 py-3 sm:px-10 sm:py-3 bg-customColors-dark-primary text-white font-bold hover:bg-customColors-border-dark hover:text-black transition-colors duration-300 rounded"
+              onClick={(e) => handleAddToCart(e, product)}>
             Add to Cart
           </button>
             </div>
@@ -118,7 +126,7 @@ const ProductListings = () => {
       </div>
       <FAQ />
     </section>
-  );
+    );
 };
 
 export default ProductListings;
