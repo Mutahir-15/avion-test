@@ -5,22 +5,24 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { FAQ } from "@/components/FAQ";
-// Define the Product type
+
+interface Dimensions {
+  height: string;
+  width: string;
+  depth: string;
+}
+
 interface Product {
-  dimensions: {
-    height: string;
-    width: string;
-    depth: string;
-  };
-  features: string[];
-  tags: string[];
-  quantity: number;
-  category: string;
-  image_url: string;
   _id: string;
   name: string;
-  price: number;
   description: string;
+  price: number;
+  quantity: number;
+  dimensions: Dimensions;
+  image_url: string;
+  tags: string[];
+  features: string[];
+  category: string;
   image: {
     asset: {
       url: string;
@@ -30,18 +32,21 @@ interface Product {
 
 // Fetch product data from Sanity
 const query = groq`
-  *[_type == "product"] {
-      _id,
-      name,
-      description,
-      quantity,
-      price,
-      dimensions,
-      features,
-      tags,
-      "image_url": image.asset->url,
+  *[_type == "product" && _id == $productId][0] {
+    _id,
+    name,
+    description,
+    quantity,
+    price,
+    dimensions,
+    features,
+    tags,
+    "image_url": image.asset->url,
+    category->{
+      name
     }
-      `;
+  }
+`;
 
 export default function ProductDetails() {
   const params = useParams(); // Get the dynamic route parameters
@@ -95,7 +100,7 @@ export default function ProductDetails() {
 
           {/* Category */}
           {product.category && (
-            <p className="text-gray-600">Category: {product.category}</p>
+            <p className="text-gray-600">Category: {product.category.name}</p>
           )}
 
           {/* Tags */}
