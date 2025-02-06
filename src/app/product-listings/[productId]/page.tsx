@@ -1,7 +1,10 @@
-// app/product-listings/[productId]/page.tsx
+
+"use client";
 import { groq } from "next-sanity";
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 // Define the Product type
 interface Product {
@@ -14,16 +17,6 @@ interface Product {
       url: string;
     };
   };
-}
-
-// Define the Params type
-interface Params {
-  productId: string;
-}
-
-// Define the Props type
-interface Props {
-  params: Params;
 }
 
 // Fetch product data from Sanity
@@ -41,11 +34,32 @@ const query = groq`
   }
 `;
 
-export default async function ProductDetails({ params }: Props) {
-  // Fetch the product data
-  const product: Product = await client.fetch(query, { productId: params.productId });
+export default function ProductDetails() {
+  const params = useParams(); // Get the dynamic route parameters
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Handle missing product
+  useEffect(() => {
+    // Fetch the product data
+    const fetchProduct = async () => {
+      try {
+        const productId = params.productId as string;
+        const productData: Product = await client.fetch(query, { productId });
+        setProduct(productData);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [params.productId]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   if (!product) {
     return <div>Product not found.</div>;
   }
@@ -73,18 +87,4 @@ export default async function ProductDetails({ params }: Props) {
       </div>
     </div>
   );
-}
-
-// Generate static paths for all products
-export async function generateStaticParams() {
-  const query = groq`
-    *[_type == "product"] {
-      _id
-    }
-  `;
-  const products: Product[] = await client.fetch(query);
-
-  return products.map((product) => ({
-    productId: product._id,
-  }));
 }
