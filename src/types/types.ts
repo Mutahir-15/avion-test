@@ -1,7 +1,7 @@
 export interface Product {
   features: any;
-  tags: any;
-  category: any;
+  tags: string;
+  category: number;
   _id: string;
   name: string;
   description: string;
