@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { groq } from "next-sanity";
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
@@ -22,15 +22,9 @@ interface Product {
   image_url: string;
   tags: string[];
   features: string[];
-  category: string;
-  image: {
-    asset: {
-      url: string;
-    };
-  };
+  category: { name: string };
 }
 
-// Fetch product data from Sanity
 const query = groq`
   *[_type == "product" && _id == $productId][0] {
     _id,
@@ -42,19 +36,16 @@ const query = groq`
     features,
     tags,
     "image_url": image.asset->url,
-    category->{
-      name
-    }
+    category->{ name }
   }
 `;
 
 export default function ProductDetails() {
-  const params = useParams(); // Get the dynamic route parameters
+  const params = useParams();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch the product data
     const fetchProduct = async () => {
       try {
         const productId = params.productId as string;
@@ -71,7 +62,18 @@ export default function ProductDetails() {
   }, [params.productId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="max-w-[1440px] mx-auto p-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="relative w-full h-[300px] sm:h-[400px] md:h-[655px] mb-3 lg:mb-5 bg-gray-200 animate-pulse rounded-lg"></div>
+          <div className="space-y-4">
+            <div className="h-8 bg-gray-200 animate-pulse w-3/4 rounded"></div>
+            <div className="h-4 bg-gray-200 animate-pulse w-full rounded"></div>
+            <div className="h-4 bg-gray-200 animate-pulse w-1/2 rounded"></div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (!product) {
@@ -100,7 +102,7 @@ export default function ProductDetails() {
 
           {/* Category */}
           {product.category && (
-            <p className="text-gray-600">Category: {product.category}</p>
+            <p className="text-gray-600">Category: {product.category.name}</p>
           )}
 
           {/* Tags */}
@@ -138,6 +140,7 @@ export default function ProductDetails() {
               <p>Depth: {product.dimensions.depth}</p>
             </div>
           )}
+
           {/* Add to Cart Button */}
           <div>
             <button className="mt-6 sm:mt-6 px-4 py-3 sm:px-16 sm:py-3 bg-customColors-dark-primary text-white font-medium hover:bg-customColors-border-dark hover:text-black transition-colors duration-300 rounded">
