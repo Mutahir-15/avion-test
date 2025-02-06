@@ -20,7 +20,7 @@ const query = groq`
   }
 `;
 
-interface PageProps {
+interface Props {
   params: {
     productId: string;
   };
@@ -48,9 +48,8 @@ interface Product {
 }
 
 // Fetch and display product details
-export default async function ProductDetails({ params }: PageProps) {
-  const { productId } = params;
-  const product: Product | null = await client.fetch(query, { productId });
+export default async function ProductDetails({ params }: Props) {
+  const product: Product | null = await client.fetch(query, { productId: params.productId });
 
   if (!product) {
     return <div>Product not found</div>;
@@ -116,6 +115,12 @@ export default async function ProductDetails({ params }: PageProps) {
               <p>Depth: {product.dimensions.depth}</p>
             </div>
           )}
+          {/* Add to Cart Button */}
+          <div>
+            <button className="mt-6 sm:mt-6 px-4 py-3 sm:px-16 sm:py-3 bg-customColors-dark-primary text-white font-medium hover:bg-customColors-border-dark hover:text-black transition-colors duration-300 rounded">
+              Add to Cart
+            </button>
+          </div>
         </div>
       </div>
       <div className="border-t-2 mt-5 lg:mt-8">
@@ -123,4 +128,12 @@ export default async function ProductDetails({ params }: PageProps) {
       </div>
     </div>
   );
+}
+
+export async function generateStaticParams() {
+  const products = await client.fetch(groq`*[_type == "product"]{_id}`);
+
+  return products.map((product: { _id: string }) => ({
+    productId: product._id,
+  }));
 }

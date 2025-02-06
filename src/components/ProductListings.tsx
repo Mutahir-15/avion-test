@@ -41,7 +41,7 @@ const ProductListings = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="text-center p-2 lg:p-7">Loading...</div>;
     }
 
     const handleAddToCart = (e: React.MouseEvent, product: Product) => {
@@ -98,7 +98,7 @@ const ProductListings = () => {
       </div>
 
       {/* Product Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-6">
         {products.map((product) => (
           <Link href={`/product-listings/${product._id}`} key={product._id}>
             <div className="flex flex-col items-start p-4 bg-white shadow-sm hover:shadow-md hover:scale-105 transition-transform duration-300 rounded-md">
